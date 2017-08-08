@@ -8,49 +8,43 @@ if (process.env.TRACE) {
 }
 
 const Koa = require('koa');
+
 const app = new Koa();
 
-const config = require('config');
+// const config = require('config');
+// const mongoose = require('./libs/mongoose');
+
+// keys for in-koa KeyGrip cookie signing (used in session, maybe other modules)
+// app.keys = [config.secret];
 
 const path = require('path');
 const fs = require('fs');
 
-const handlers = fs.readdirSync(path.join(__dirname, 'handlers')).sort();
-handlers.forEach(handler => require('./handlers/' + handler).init(app));
+const middlewares = fs.readdirSync(path.join(__dirname, 'middlewares')).sort();
 
+middlewares.forEach(function(middleware) {
+  app.use(require('./middlewares/' + middleware));
+});
 
+// ---------------------------------------
 
 // can be split into files too
 const Router = require('koa-router');
 
 const router = new Router();
 
-router.get('/views', async function(ctx, next) {
-  let count = ctx.session.count || 0;
-  ctx.session.count = ++count;
-
-  ctx.body = ctx.render('./templates/index.pug', {
-    user: 'John',
-    count
-  });
+router.get('/', async (ctx) => {
+  ctx.body = ctx.render('layout');
 });
 
-
-// параметр ctx.params
-// см. различные варианты https://github.com/pillarjs/path-to-regexp
-//   - по умолчанию 1 элемент пути, можно много *
-//   - по умолчанию обязателен, можно нет ?
-//   - уточнение формы параметра через regexp'ы
-router.get('/user/:user', async function(ctx) {
-  ctx.body = "Hello, " + ctx.params.user;
-});
-
-router.get('/', async function(ctx) {
-  // ctx.redirect('/views');
-
-  ctx.body = '1';
-});
+// router.get('/', require('./routes/frontpage').get);
+// router.post('/login', require('./routes/login').post);
+// router.post('/logout', require('./routes/logout').post);
+// router.get('/', require('./routes/login').post);
 
 app.use(router.routes());
 
-app.listen(config.get('port'));
+const server = app.listen(3000);
+
+// const socket = require('./libs/socket');
+// socket(server);
