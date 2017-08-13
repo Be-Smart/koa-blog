@@ -1,14 +1,12 @@
 
-module.exports = async function(ctx, next) {
-
+module.exports = async (ctx, next) => {
   // keep previous flash
-  let messages = ctx.session.messages || {};
+  const messages = ctx.session.messages || {};
 
   // clear all flash
   delete ctx.session.messages;
 
-  ctx.flash = function(type, html) {
-
+  ctx.flash = (type, html) => {
     if (type === undefined) {
       return messages || {};
     }
@@ -24,7 +22,7 @@ module.exports = async function(ctx, next) {
       ctx.session.messages[type] = [];
     }
 
-    ctx.session.messages[type].push(html);
+    return ctx.session.messages[type].push(html);
   };
 
   await next();
@@ -33,9 +31,8 @@ module.exports = async function(ctx, next) {
   // e.g. logout does session.destroy()
   if (!ctx.session) return;
 
-  if (ctx.status == 302 && !ctx.session.messages) {
+  if (ctx.status === 302 && !ctx.session.messages) {
     // pass on the flash over a redirect
     ctx.session.messages = messages;
   }
-
 };
