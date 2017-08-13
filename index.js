@@ -1,15 +1,12 @@
-// A "closer to real-life" app example
-// using 3rd party middleware modules
-// P.S. MWs calls be refactored in many files
-
 // long stack trace (+clarify from co) if needed
-if (process.env.TRACE) {
-  require('./libs/trace');
-}
+// if (process.env.TRACE) {
+//   require('./libs/trace');
+// }
 
 const Koa = require('koa');
 
 const app = new Koa();
+require('dotenv').config();// eslint-disable-line import/no-extraneous-dependencies
 
 // const config = require('config');
 // const mongoose = require('./libs/mongoose');
@@ -22,29 +19,12 @@ const fs = require('fs');
 
 const middlewares = fs.readdirSync(path.join(__dirname, 'middlewares')).sort();
 
-middlewares.forEach(function(middleware) {
-  app.use(require('./middlewares/' + middleware));
+middlewares.forEach((middleware) => {
+  app.use(require(`./middlewares/${middleware}`));// eslint-disable-line
 });
 
-// ---------------------------------------
+const guestRouter = require('./routes/guest');
 
-// can be split into files too
-const Router = require('koa-router');
+app.use(guestRouter.routes());
 
-const router = new Router();
-
-router.get('/', async (ctx) => {
-  ctx.body = ctx.render('layout');
-});
-
-// router.get('/', require('./routes/frontpage').get);
-// router.post('/login', require('./routes/login').post);
-// router.post('/logout', require('./routes/logout').post);
-// router.get('/', require('./routes/login').post);
-
-app.use(router.routes());
-
-const server = app.listen(3000);
-
-// const socket = require('./libs/socket');
-// socket(server);
+module.exports = app;

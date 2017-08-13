@@ -7,9 +7,8 @@
 const busboy = require('co-busboy');
 const convert = require('koa-convert');
 
-// convert function* (next) => async function(ctx, next)
-// ctx => this, next => next
-exports.init = app => app.use(convert(function* (next) {
+
+module.exports = convert(function* (next) {
   // the body isn't multipart, so busboy can't parse it
   if (!this.request.is('multipart/*')) {
     return yield* next;
@@ -44,4 +43,4 @@ exports.init = app => app.use(convert(function* (next) {
   }
 
   yield* next;
-}));
+});

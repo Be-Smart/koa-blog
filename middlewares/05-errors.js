@@ -1,5 +1,6 @@
 
-exports.init = app => app.use(async (ctx, next) => {
+
+module.exports = async (ctx, next) => {
   try {
     await next();
   } catch (e) {
@@ -10,8 +11,7 @@ exports.init = app => app.use(async (ctx, next) => {
     } else {
       ctx.body = 'Error 500';
       ctx.status = 500;
-      console.error(e.message, e.stack);
+      global.console.error(e.message, e.stack);
     }
-
   }
-});
+};
