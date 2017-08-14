@@ -1,15 +1,10 @@
-// long stack trace (+clarify from co) if needed
-// if (process.env.TRACE) {
-//   require('./libs/trace');
-// }
-
 const Koa = require('koa');
 
 const app = new Koa();
 require('dotenv').config();// eslint-disable-line import/no-extraneous-dependencies
 
 // const config = require('config');
-// const mongoose = require('./libs/mongoose');
+// require('./libs/mongoose');
 
 // keys for in-koa KeyGrip cookie signing (used in session, maybe other modules)
 // app.keys = [config.secret];
@@ -24,7 +19,9 @@ middlewares.forEach((middleware) => {
 });
 
 const guestRouter = require('./routes/guest');
+const adminRouter = require('./routes/admin');
 
 app.use(guestRouter.routes());
+app.use(adminRouter.routes());
 
 module.exports = app;

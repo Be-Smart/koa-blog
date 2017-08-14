@@ -7,7 +7,8 @@ guestRouter.get('/', async (ctx) => {
 });
 
 guestRouter.get('/post/:id', async (ctx) => {
-  ctx.body = ctx.render('blogPost');
+  // console.log(ctx.params);
+  ctx.body = ctx.render('blogPost', { id: ctx.params.id });
 });
 
 module.exports = guestRouter;
