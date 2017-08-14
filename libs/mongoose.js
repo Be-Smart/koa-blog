@@ -8,13 +8,17 @@
  */
 
 const mongoose = require('mongoose');
+const beautifyUnique = require('mongoose-beautiful-unique-validation');
 
 mongoose.Promise = Promise;
+mongoose.plugin(beautifyUnique);
 
 // if (process.env.MONGOOSE_DEBUG) {
 // mongoose.set('debug', true);
 // }
 
-mongoose.connect(process.env.DB_URL);
+mongoose.connect(process.env.DB_URL, {
+  useMongoClient: true,
+});
 
 module.exports = mongoose;
