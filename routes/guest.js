@@ -26,7 +26,6 @@ guestRouter.get('/', async (ctx) => {
 });
 
 guestRouter.get('/post/:id', middlewares, async (ctx) => {
-  console.log(ctx.currentPost);
   ctx.body = ctx.render('blogPost', { post: ctx.currentPost });
 });
 

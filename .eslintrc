@@ -2,6 +2,7 @@
   "root": true,
   "extends": "airbnb-base",
   "env": {
-    "node": true
+    "node": true,
+    "jest": true
   }
 }
