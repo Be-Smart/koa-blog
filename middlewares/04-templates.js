@@ -3,12 +3,14 @@
 // most of time it's better to use the chosen template system directly
 const pug = require('pug');
 const path = require('path');
+const moment = require('moment');
 
 module.exports = async (ctx, next) => {
   const context = {};
 
   /* default helpers */
   context.locals = {
+    moment,
     /* at the time of ctx middleware, user is unknown, so we make it a getter */
     get user() {
       return ctx.req.user; // passport sets ctx

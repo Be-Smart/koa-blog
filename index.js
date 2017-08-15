@@ -3,12 +3,6 @@ const Koa = require('koa');
 const app = new Koa();
 require('dotenv').config();// eslint-disable-line import/no-extraneous-dependencies
 
-// const config = require('config');
-// require('./libs/mongoose');
-
-// keys for in-koa KeyGrip cookie signing (used in session, maybe other modules)
-// app.keys = [config.secret];
-
 const path = require('path');
 const fs = require('fs');
 

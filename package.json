@@ -35,6 +35,7 @@
     "koa-session-mongoose": "^1.0.0",
     "koa-static": "^4.0.1",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.4",
     "mongoose-beautiful-unique-validation": "^7.0.0",
     "nodemon": "^1.11.0",

@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  each post in posts
+    a(href=`/post/${post._id}`): h2= post.title
+    span= moment(post.createdAt).format("MMM Do, YYYY")
