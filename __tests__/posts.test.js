@@ -9,18 +9,24 @@ describe('Posts', () => {
 
   afterAll(() => cleanDb());
 
-  test('It should get all posts', async () => {
-    const response = await request(app.listen()).get('/');
-    expect(response.statusCode).toBe(200);
+  describe('GET /', () => {
+    test('It should get all posts', async () => {
+      const response = await request(app.listen()).get('/');
+      expect(response.statusCode).toBe(200);
+    });
   });
 
-  test('It should create post', async () => {
-    const values = { title: 'Test koa', content: 'Some data', tags: ['test'] };
-    const blogCount = await BlogPost.count();
-    const res = await request(app.listen()).post('/admin/create').send(values);
-    const newBlogCount = await BlogPost.count();
+  describe('GET /post/:id', () => { });
 
-    expect(res.statusCode).toBe(200);
-    expect(blogCount + 1).toBe(newBlogCount);
+  describe('POST /admin/create', () => {
+    test('It should create post', async () => {
+      const values = { title: 'Test koa', content: 'Some data', tags: ['test'] };
+      const blogCount = await BlogPost.count();
+      const res = await request(app.listen()).post('/admin/create').send(values);
+      const newBlogCount = await BlogPost.count();
+
+      expect(res.statusCode).toBe(200);
+      expect(blogCount + 1).toBe(newBlogCount);
+    });
   });
 });

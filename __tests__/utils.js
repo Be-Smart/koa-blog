@@ -9,9 +9,10 @@ exports.initDb = () => {
 };
 
 exports.cleanDb = () => {
-  Object.keys(mongoose.connection.collections).forEach((collection) => {
-    if (mongoose.connection.collections[collection]) {
-      mongoose.connection.collections[collection].remove();
+  const { collections } = mongoose.connection;
+  Object.keys(collections).forEach((collection) => {
+    if (collections[collection]) {
+      collections[collection].remove();
     }
   });
 };
