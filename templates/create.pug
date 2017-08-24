@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  section
+    a(href='/') Home
+
+    h1 Create a new blog post
+
+    main
+      form(method='post')
+        label(for='id') Post title
+        input(type='text' name='title' placeholder='Post title' id='title')
+
+        label(for='id') Tags
+        input(type='text' name='tags' placeholder='Tags' id='tags')
+
+        label(for='content') Post content
+        textarea(name='content' placeholder='Content' id='content')
+
+        button(type='submit') Submit

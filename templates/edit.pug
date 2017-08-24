@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  section
+    a(href='/') Home
+
+    h1 Edit blog post
+
+    main
+      form(method='post')
+        label(for='id') Post title
+        input(type='text' name='title' placeholder='Post title' id='title' value=`${post.title}`)
+
+        //- label(for='id') Tags
+        //- input(type='text' name='tags' placeholder='Tags' id='tags' value=`${post.tags}`)
+
+        label(for='content') Post content
+        textarea(name='content' placeholder='Content' id='content')= post.content
+
+        button(type='submit') Save
+        a(href=`/post/${post._id}`) Cancel

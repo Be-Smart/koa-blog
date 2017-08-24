@@ -1,6 +1,10 @@
 extends layout
 
 block content
-  each post in posts
-    a(href=`/post/${post._id}`): h2= post.title
-    span= moment(post.createdAt).format("MMM Do, YYYY")
+  section
+    nav: ul
+      li: a(href='/admin/create') New Post
+    each post in posts
+      div
+        span= moment(post.createdAt).format("MMM Do, YYYY")
+        a(href=`/post/${post._id}`): h3= post.title

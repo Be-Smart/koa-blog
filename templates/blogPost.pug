@@ -1,6 +1,18 @@
 extends layout
 
 block content
-  h1= post.title
-  p= moment(post.createdAt).format("MMM Do, YYYY")
-  p= post.content
+  section
+    nav: ul
+      li: a(href='/') Home
+      li: a(href=`/admin/update/${post._id}`) Edit
+      li: a(href=`/admin/delete/${post._id}`) Delete
+
+    h1= post.title
+
+    div
+      span Author Name
+      br
+      span= moment(post.createdAt).format("MMM Do, YYYY")
+
+    main
+      p= post.content
