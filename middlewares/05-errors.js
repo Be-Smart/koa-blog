@@ -17,7 +17,7 @@ module.exports = async (ctx, next) => {
         errors[field] = e.errors[field];
       });
 
-      ctx.body = preferredType === 'json' ? { errors } : `Error: ${errors.title.message}`;
+      ctx.body = preferredType === 'json' ? { errors } : 'Validation error';
     } else {
       ctx.body = 'Error 500';
       ctx.status = 500;

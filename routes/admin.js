@@ -42,4 +42,10 @@ adminRouter.post('/delete/:id', middlewares, async (ctx) => {
   ctx.body = removedPost;
 });
 
+// adminRouter.post('/user', async (ctx) => {
+//   const User = require('../models/user');// eslint-disable-line
+//   const fields = pick(ctx.request.body, ['name', 'email', 'password']);
+//   ctx.body = await User.create(fields);
+// });
+
 module.exports = adminRouter;
