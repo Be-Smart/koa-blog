@@ -19,6 +19,7 @@ const blogPostSchema = new Schema({
   tags: [{
     type: String,
     required: 'At least one tag must be provided',
+    lowercase: true,
   }],
 }, {
   timestamps: true,
