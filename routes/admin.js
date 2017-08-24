@@ -9,37 +9,56 @@ const adminRouter = new Router({
 });
 
 async function validateId(ctx, next) {
-  if (!mongoose.Types.ObjectId.isValid(ctx.params.id)) ctx.throw(404);
+  ctx.postId = ctx.params.id;
+  if (!mongoose.Types.ObjectId.isValid(ctx.postId)) ctx.throw(404);
   await next();
 }
 
 async function getPost(ctx, next) {
-  ctx.currentPost = await BlogPost.findById(ctx.params.id);
+  ctx.currentPost = await BlogPost.findById(ctx.postId);
   if (!ctx.currentPost) { ctx.throw(404); }
   await next();
 }
 
 const middlewares = compose([validateId, getPost]);
 
+adminRouter.get('/update/:id', middlewares, (ctx) => {
+  // Object.assign(ctx.currentPost, { tags: ctx.currentPost.tags.join(',') });
+  ctx.body = ctx.render('edit', { post: ctx.currentPost });
+});
+
+adminRouter.get('/create', (ctx) => {
+  ctx.body = ctx.render('create');
+});
+
 adminRouter.post('/create', async (ctx) => {
   const fields = pick(ctx.request.body, BlogPost.getPostFields);
-  const post = await BlogPost.create(fields);
 
-  ctx.body = post.toObject();
+  // TO DO helper method for tags
+  const tags = fields.tags.split(',');
+  Object.assign(fields, { tags });
+
+  const post = await BlogPost.create(fields);
+  if (!post) { ctx.throw(); }
+
+  ctx.redirect('/');
 });
 
 adminRouter.post('/update/:id', middlewares, async (ctx) => {
   const fields = pick(ctx.request.body, BlogPost.getPostFields);
   Object.assign(ctx.currentPost, fields);
 
-  await ctx.currentPost.save();
+  const updatedPost = await ctx.currentPost.save();
+  if (!updatedPost) { ctx.throw(); }
 
-  ctx.body = ctx.currentPost.toObject();
+  ctx.redirect(`/post/${ctx.postId}`);
 });
 
-adminRouter.post('/delete/:id', middlewares, async (ctx) => {
+adminRouter.get('/delete/:id', middlewares, async (ctx) => {
   const removedPost = await ctx.currentPost.remove();
-  ctx.body = removedPost;
+  if (!removedPost) { ctx.throw(); }
+
+  ctx.redirect('/');
 });
 
 // adminRouter.post('/user', async (ctx) => {

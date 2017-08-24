@@ -19,7 +19,7 @@ async function getPost(ctx, next) {
 const middlewares = compose([validateId, getPost]);
 
 guestRouter.get('/', async (ctx) => {
-  const posts = await BlogPost.find({});
+  const posts = await BlogPost.find({}).sort({ createdAt: -1 });
   if (!posts) { ctx.throw(404); }
 
   ctx.body = ctx.render('allposts', { posts });
